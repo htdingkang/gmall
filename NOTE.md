@@ -67,3 +67,33 @@ spring.dubbo.consumer.check=false
 <br>后台解决方案：在springmvc的控制层加入@CrossOrigin跨域访问的注解。添加完成后注意看请求Response Headers中多出的部分
 ![image](./pic/1.png)
 
+# 网段变化后，虚拟机中配置步骤
+```
+#配置固定ip，虚拟机内外网段保持一致
+vi /etc/sysconfig/network-scripts/ifcfg-enp0s3
+IPADDR=
+
+service network restart
+
+#fastdfs storage配置ip变更
+vi /etc/fdfs/storage.conf
+tracker_server= 
+
+service fdfs_storaged restart 
+
+# fastdfs-nginx-module 配置ip变更
+vi /etc/fdfs/mod_fastdfs.conf
+tracker_server=
+
+# nginx 配置变更
+vi /usr/local/nginx/conf/nginx.conf
+server_name 
+
+/usr/local/nginx/sbin/nginx
+/usr/local/nginx/sbin/nginx -s reload 
+```
+
+# fastdfs-client-java
+<br>git clone后拷贝到gmall项目下，file->new->module from existing sources ->选择fastdfs-client-java->选择maven 
+<br>maven install 装到仓库后即可删除。
+<br>gmall-manage-web中 maven dependency引入
