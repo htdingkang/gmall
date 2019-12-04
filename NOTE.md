@@ -92,6 +92,22 @@ server_name
 /usr/local/nginx/sbin/nginx
 /usr/local/nginx/sbin/nginx -s reload 
 ```
+# docker 安装fastdfs
+```
+docker pull morunchang/fastdfs
+docker run -d --name tracker --net=host morunchang/fastdfs sh tracker.sh
+#TRACKER_IP配置docker所在主机的ip
+docker run -d --name storage --net=host -e TRACKER_IP=192.168.9.108:22122 -e GROUP_NAME=group1 morunchang/fastdfs sh storage.sh
+
+docker exec -it storage /bin/bash
+vi /etc/nginx/conf/nginx.conf
+# 修改nginx访问 监听端口和server_name
+listen       80;
+server_name  192.168.9.108;
+
+#重启storage
+
+```
 
 # fastdfs-client-java
 <br>git clone后拷贝到gmall项目下，file->new->module from existing sources ->选择fastdfs-client-java->选择maven 

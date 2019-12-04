@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.ArrayList;
 import java.util.List;
 @Service
 public class AttrServiceImpl implements AttrService {
@@ -29,6 +30,13 @@ public class AttrServiceImpl implements AttrService {
         PmsBaseAttrInfo pmsBaseAttrInfo = new PmsBaseAttrInfo();
         pmsBaseAttrInfo.setCatalog3Id(catalog3Id);
         List<PmsBaseAttrInfo> select = pmsBaseAttrInfoMapper.select(pmsBaseAttrInfo);
+        for (PmsBaseAttrInfo baseAttrInfo : select) {
+            List<PmsBaseAttrValue> pmsBaseAttrValues=new ArrayList<>();
+            PmsBaseAttrValue pmsBaseAttrValue=new PmsBaseAttrValue();
+            pmsBaseAttrValue.setAttrId(baseAttrInfo.getId());
+            pmsBaseAttrValues=pmsBaseAttrValueMapper.select(pmsBaseAttrValue);
+            baseAttrInfo.setAttrValueList(pmsBaseAttrValues);
+        }
         return select;
     }
 
