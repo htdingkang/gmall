@@ -15,4 +15,11 @@ public interface SpuService {
     List<PmsProductSaleAttr> spuSaleAttrList(String spuId);
 
     List<PmsProductImage> spuImageList(String spuId);
+
+    /**
+     * 查询对应spu下的销售属性与属性值的组合列表
+     * @param productId
+     * @return
+     */
+    List<PmsProductSaleAttr> spuSaleAttrListCheckBySku(String productId,String skuId);
 }
