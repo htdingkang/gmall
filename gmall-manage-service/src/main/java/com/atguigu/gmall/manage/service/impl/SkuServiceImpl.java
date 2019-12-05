@@ -63,4 +63,10 @@ public class SkuServiceImpl implements SkuService {
         pmsSkuInfo1.setSkuImageList(pmsSkuImages);
         return pmsSkuInfo1;
     }
+
+    @Override
+    public List<PmsSkuInfo> getSkuSaleAttrValueListBySpu(String productId) {
+        List<PmsSkuInfo> pmsSkuInfos=pmsSkuInfoMapper.selectSkuSaleAttrValueListBySpu(productId);
+        return pmsSkuInfos;
+    }
 }
