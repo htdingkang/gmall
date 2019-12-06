@@ -113,3 +113,36 @@ server_name  192.168.9.108;
 <br>git clone后拷贝到gmall项目下，file->new->module from existing sources ->选择fastdfs-client-java->选择maven 
 <br>maven install 装到仓库后即可删除。
 <br>gmall-manage-web中 maven dependency引入
+
+
+# idea启动多个实例
+Edit Configurations -> Allow parallel run
+
+# nginx 负载均衡
+```
+upstream redisTest {
+        server   192.168.9.250:9001 weight=3;
+        server   192.168.9.250:9002  weight=3;
+        server   192.168.9.250:9003  weight=3;
+}
+server {
+        listen       9000;
+        server_name  192.168.9.108;
+
+        location / {
+                root   html;
+                index  index.html index.htm;
+                proxy_pass  http://redisTest;
+        }
+}
+```
+
+# 使用Apache压力测试工具
+```
+yum -y install httpd-tools
+# ab [options] [http[s]://]hostname[:port]/path
+ab -c 200 -n 1000 http://192.168.9.108:9000/testRedisson   # 并发200，共发1000次请求
+```
+
+
+
