@@ -146,3 +146,64 @@ ab -c 200 -n 1000 http://192.168.9.108:9000/testRedisson   # 并发200，共发1
 
 
 
+# elasticsearch，kibana安装配置
+```
+mkdir -p /opt/es
+# 上传安装包，elasticsearch-6.3.1.tar.gz  elasticsearch-analysis-ik6.rar  kibana-6.3.1-linux-x86_64.tar.gz
+# 解压elasticsearch-6.3.1.tar.gz
+# es6 root用户无法启动,创建其他用户,临时处理权限问题
+cd /opt/es
+chmod 777 -R elasticsearch-6.3.1
+adduser es
+su es
+# 配置测试环境启动占用jvm内存空间，默认是1g， 如果jvm.options中没有内容，需要切换到root用户进行操作
+vi /opt/es/elasticsearch-6.3.1/config/jvm.options
+-Xms256m
+-Xmx256m
+# 配置外网访问url
+vi /opt/es/elasticsearch-6.3.1/config/elasticsearch.yml 
+network.host: 192.168.9.108
+http.port: 9200
+# 启动命令
+/opt/es/elasticsearch-6.3.1/bin/elasticsearch
+# 启动后退出控制台（后台启动）
+nohup /opt/es/elasticsearch-6.3.1/bin/elasticsearch &  
+
+报错
+[1]: max file descriptors [4096] for elasticsearch process is too low, increase to at least [65536]
+[2]: max number of threads [3868] for user [es] is too low, increase to at least [4096]
+[3]: max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]
+解决方案
+[1][2]
+ulimit -Hn  #查看nofile硬限制  -S 软限制
+ulimit -Hu  #查看nproc 硬限制
+su root   
+vi /etc/security/limits.conf 
+添加
+es soft nofile 65536
+es hard nofile 65536
+es soft nproc  4096
+es hard nproc  4096
+# 用户重新登录（切换）生效
+[3]:
+vi /etc/sysctl.conf
+添加
+vm.max_map_count=655360
+#然后执行命令
+sysctl -p
+
+#配置启动kibana
+vi /opt/es/kibana-6.3.1-linux-x86_64/config/kibana.yml 
+server.host: "0.0.0.0"
+elasticsearch.url: "http://192.168.9.108:9200"
+# cd 到 bin目录下，启动
+nohup /opt/es/kibana-6.3.1-linux-x86_64/bin/kibana  &
+# 查看进程id
+ps -ef | grep kibana
+ps -ef | grep node  
+# 访问地址
+http://192.168.9.108:5601
+```
+
+
+
