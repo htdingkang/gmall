@@ -1,3 +1,14 @@
+# linux jdk 环境变量配置
+```
+vi /etc/profile
+# 添加如下内容  JAVA_HOME=jdk解压地址
+export JAVA_HOME=/opt/jdk1.8.0_161
+export JRE_HOME=${JAVA_HOME}/jre  
+export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib  
+export  PATH=${JAVA_HOME}/bin:$PATH
+# 配置生效
+source /etc/profile
+```
 # 启动 zookeeper
 - 上传zookeeper-3.4.11.tar.gz到linux服务器/opt目录下
 - 解压
@@ -204,6 +215,47 @@ ps -ef | grep node
 # 访问地址
 http://192.168.9.108:5601
 ```
+# elasticsearch分词器
+将解压后的analysis-ik包放到elasticsearch-6.3.1的plugins目录下,重启es，kibana即可。
+
+ik中英文分词器有两个:
+1. ik_smart
+2. ik_max_word
+
+![image](pic/2.jpg)
+![image](pic/3.jpg)
+
+# elasticsearch集群配置
+```
+vi /opt/es/elasticsearch-6.3.1/config/elasticsearch.yml
+# 集群名称（不能重复）
+cluster.name: my-application     #必须相同 
+# 节点名称，仅仅是描述名称，用于在日志中区分（自定义）
+node.name: es1（必须不同）
+#指定了该节点可能成为 master 节点，还可以是数据节点
+node.master: true
+node.data: true
+# 数据的默认存放路径（自定义）
+path.data: /opt/es/data
+# 日志的默认存放路径 
+path.logs: /opt/es/logs 
+# 当前节点的IP地址 
+network.host: 192.168.9.108 
+# 对外提供服务的端口
+http.port: 9200 
+#9300为集群服务的端口 
+transport.tcp.port: 9300
+# 集群个节点IP地址，也可以使用域名，需要各节点能够解析 
+discovery.zen.ping.unicast.hosts: ["192.168.9.107"] 
+# 为了避免脑裂，集群节点数最少为 半数+1
+discovery.zen.minimum_master_nodes: 2 
+
+# 莫忘记创建指定的数据，日志目录,修改目录权限。
+# 配置完集群，elasticsearch  config目录下会多出一个elasticsearch.keystore的文件也会出现用户访问权限问题。
+# 使用cerebro-0.8.3查看管理集群，windows下启动即可使用。
+```
+
+
 
 
 
