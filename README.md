@@ -8,3 +8,6 @@
 # 商品详情服务  
 gmall-item-web  8082   直接调用 gmall-manage-service获取spu，sku相关内容 
 
+# 商品搜索服务
+gmall-search-service  8073     
+gmall-search-web   8083    

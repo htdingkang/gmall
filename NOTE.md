@@ -255,7 +255,57 @@ discovery.zen.minimum_master_nodes: 2
 # 使用cerebro-0.8.3查看管理集群，windows下启动即可使用。
 ```
 
+# elasticsearch中 pms_sku_info对应数据类型的定义
+```
+PUT gmall
+{
+  "mappings": {
+    "PmsSkuInfo":{
+      "properties": {
+        "id":{
+          "type": "keyword"
+        },
+        "price":{
+          "type": "double"
+        },
+         "skuName":{
+          "type": "text",
+          "analyzer": "ik_max_word"
+        },
+        "skuDesc":{
+          "type": "text",
+          "analyzer": "ik_smart"
+        },
+        "catalog3Id":{
+          "type": "keyword"
+        },
+        "skuDefaultImg":{
+          "type": "keyword",
+          "index": false
+        },
+        "hotScore":{
+          "type": "double"
+        },
+        "productId":{
+          "type": "keyword"
+        },
+        "skuAttrValueList":{
+          "properties": {
+            "attrId":{
+              "type":"keyword"
+            },
+            "valueId":{
+              "type":"keyword"
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
+# elasticsearch 复杂查询
+- 查询前过滤
 
-
-
+![image](pic/4.png)
 
