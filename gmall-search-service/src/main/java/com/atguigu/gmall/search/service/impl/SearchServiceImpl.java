@@ -12,6 +12,8 @@ import org.apache.commons.lang.StringUtils;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.TermQueryBuilder;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.aggregations.bucket.terms.TermsBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.highlight.HighlightBuilder;
 import org.elasticsearch.search.sort.SortOrder;
@@ -62,8 +64,7 @@ public class SearchServiceImpl implements SearchService {
     private String getSearchDsl(PmsSearchParam pmsSearchParam) {
         String catalog3Id = pmsSearchParam.getCatalog3Id();
         String keyword = pmsSearchParam.getKeyword();
-        List<PmsSkuAttrValue> skuAttrValueList = pmsSearchParam.getSkuAttrValueList();
-
+        String[] valueIds = pmsSearchParam.getValueId();
         //jest的dsl工具
         SearchSourceBuilder searchSourceBuilder=new SearchSourceBuilder();
         //bool
@@ -72,9 +73,9 @@ public class SearchServiceImpl implements SearchService {
             TermQueryBuilder queryBuilder=new TermQueryBuilder("catalog3Id",catalog3Id);
             boolQueryBuilder.filter(queryBuilder);
         }
-        if(skuAttrValueList!=null){
-            for (PmsSkuAttrValue pmsSkuAttrValue : skuAttrValueList) {
-                TermQueryBuilder queryBuilder=new TermQueryBuilder("skuAttrValueList.valueId",pmsSkuAttrValue.getValueId());
+        if(valueIds!=null){
+            for (String valueId : valueIds) {
+                TermQueryBuilder queryBuilder=new TermQueryBuilder("skuAttrValueList.valueId",valueId);
                 boolQueryBuilder.filter(queryBuilder);
             }
         }
@@ -91,13 +92,19 @@ public class SearchServiceImpl implements SearchService {
         //size
         searchSourceBuilder.size(20);
         //sort
-        //searchSourceBuilder.sort("hotScore",SortOrder.DESC);
+//        searchSourceBuilder.sort("hotScore",SortOrder.DESC);
         //highlight
         HighlightBuilder highlightBuilder=new HighlightBuilder();
         highlightBuilder.preTags("<span style='color:red;'>");
         highlightBuilder.field("skuName");
         highlightBuilder.postTags("</span>");
         searchSourceBuilder.highlight(highlightBuilder);
+
+
+        //聚合
+//        TermsBuilder groupby_attr = AggregationBuilders.terms("groupby_attr").field("skuAttrValueList.valueId");
+//        searchSourceBuilder.aggregation(groupby_attr);
+
 
         String searchStr = searchSourceBuilder.toString();
 

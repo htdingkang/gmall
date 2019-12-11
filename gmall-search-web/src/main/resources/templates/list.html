@@ -37,7 +37,7 @@
         <a href="#"><img src="/list/image/at.jpg" alt="" width="180px" height="70px"></a>
     </div>
     <div class="header_form">
-        <input id="keyword" name="keyword" type="text" placeholder="手机" />
+        <input id="keyword" name="keyword" type="text" placeholder="请输入关键字" th:value="${keyword}"/>
         <a href="#" onclick="searchList()">搜索</a>
     </div>
     <div class="header_ico">
@@ -107,78 +107,78 @@
         <!--排序-->
         <div class="GM_banner_main">
             <!--商品精选  广告-->
-            <div class="GM_con_left">
-                <div class="GM_con_left_bar">
-                    <div class="GM_con_one">
-                        <div class="mt">
-                            <h3>商品精选</h3>
-                            <span>广告</span>
-                        </div>
-                        <div class="mc">
-                            <ul>
-                                <li>
-                                    <a href="#" title="vivo X9s 全网通 4GB+64GB 磨砂黑 移动联通电信4G手机 双卡双待"><img src="/img/59bf3c47n91d65c73.jpg" alt=""></a>
-                                    <a href="#" title="【预约版】华为 HUAWEI 畅享7S 全面屏双摄 4GB +64GB 黑色 移动联通电信4G手机 双卡双待">
-                                        <em>华为 HUAWEI nova 2S 全面屏四摄 6GB +64GB 曜石黑 移动联通电信4G手机 双卡双待</em>
-                                    </a>
-                                    <div class="mc_price">
-                                        <strong class="price">
-                                            <span class="J-p-5963064">￥2999.00</span>
-                                        </strong>
-                                        <span class="mc-ico" title="购买本商品送赠品">
-                                            <i class="goods-icons">赠品</i>
-                                        </span>
-                                    </div>
-                                    <div class="mc_rev">
-                                        已有
-                                        <a href="#" class="number">12466</a>
-                                        人评价
-                                    </div>
-                                </li>
-                                <li>
-                                    <a href="#" title="vivo X9s 全网通 4GB+64GB 磨砂黑 移动联通电信4G手机 双卡双待"><img src="/img/59bf3c47n91d65c73.jpg" alt=""></a>
-                                    <a href="#" title="【预约版】华为 HUAWEI 畅享7S 全面屏双摄 4GB +64GB 黑色 移动联通电信4G手机 双卡双待">
-                                        <em>华为 HUAWEI nova 2S 全面屏四摄 6GB +64GB 曜石黑 移动联通电信4G手机 双卡双待</em>
-                                    </a>
-                                    <div class="mc_price">
-                                        <strong class="price">
-                                            <span class="J-p-5963064">￥2999.00</span>
-                                        </strong>
-                                        <span class="mc-ico" title="购买本商品送赠品">
-                                            <i class="goods-icons">赠品</i>
-                                        </span>
-                                    </div>
-                                    <div class="mc_rev">
-                                        已有
-                                        <a href="#" class="number">12466</a>
-                                        人评价
-                                    </div>
-                                </li>
-                                <li>
-                                    <a href="#" title="vivo X9s 全网通 4GB+64GB 磨砂黑 移动联通电信4G手机 双卡双待"><img src="/img/593ba628n8794c6a6.jpg" alt=""></a>
-                                    <a href="#" title="【预约版】华为 HUAWEI 畅享7S 全面屏双摄 4GB +64GB 黑色 移动联通电信4G手机 双卡双待">
-                                        <em>诺基亚 7 (Nokia 7) 4GB+64GB 黑色 全网通 双卡双待 移动联通电信4G手机</em>
-                                    </a>
-                                    <div class="mc_price">
-                                        <strong class="price">
-                                            <span class="J-p-5963064">￥1799.00</span>
-                                        </strong>
-                                        <span class="mc-ico" title="购买本商品送赠品">
-                                            <i class="goods-icons">赠品</i>
-                                        </span>
-                                    </div>
-                                    <div class="mc_rev">
-                                        已有
-                                        <a href="#" class="number">15600</a>
-                                        人评价
-                                    </div>
-                                </li>
+<!--            <div class="GM_con_left">-->
+<!--                <div class="GM_con_left_bar">-->
+<!--                    <div class="GM_con_one">-->
+<!--                        <div class="mt">-->
+<!--                            <h3>商品精选</h3>-->
+<!--                            <span>广告</span>-->
+<!--                        </div>-->
+<!--                        <div class="mc">-->
+<!--                            <ul>-->
+<!--                                <li>-->
+<!--                                    <a href="#" title="vivo X9s 全网通 4GB+64GB 磨砂黑 移动联通电信4G手机 双卡双待"><img src="/img/59bf3c47n91d65c73.jpg" alt=""></a>-->
+<!--                                    <a href="#" title="【预约版】华为 HUAWEI 畅享7S 全面屏双摄 4GB +64GB 黑色 移动联通电信4G手机 双卡双待">-->
+<!--                                        <em>华为 HUAWEI nova 2S 全面屏四摄 6GB +64GB 曜石黑 移动联通电信4G手机 双卡双待</em>-->
+<!--                                    </a>-->
+<!--                                    <div class="mc_price">-->
+<!--                                        <strong class="price">-->
+<!--                                            <span class="J-p-5963064">￥2999.00</span>-->
+<!--                                        </strong>-->
+<!--                                        <span class="mc-ico" title="购买本商品送赠品">-->
+<!--                                            <i class="goods-icons">赠品</i>-->
+<!--                                        </span>-->
+<!--                                    </div>-->
+<!--                                    <div class="mc_rev">-->
+<!--                                        已有-->
+<!--                                        <a href="#" class="number">12466</a>-->
+<!--                                        人评价-->
+<!--                                    </div>-->
+<!--                                </li>-->
+<!--                                <li>-->
+<!--                                    <a href="#" title="vivo X9s 全网通 4GB+64GB 磨砂黑 移动联通电信4G手机 双卡双待"><img src="/img/59bf3c47n91d65c73.jpg" alt=""></a>-->
+<!--                                    <a href="#" title="【预约版】华为 HUAWEI 畅享7S 全面屏双摄 4GB +64GB 黑色 移动联通电信4G手机 双卡双待">-->
+<!--                                        <em>华为 HUAWEI nova 2S 全面屏四摄 6GB +64GB 曜石黑 移动联通电信4G手机 双卡双待</em>-->
+<!--                                    </a>-->
+<!--                                    <div class="mc_price">-->
+<!--                                        <strong class="price">-->
+<!--                                            <span class="J-p-5963064">￥2999.00</span>-->
+<!--                                        </strong>-->
+<!--                                        <span class="mc-ico" title="购买本商品送赠品">-->
+<!--                                            <i class="goods-icons">赠品</i>-->
+<!--                                        </span>-->
+<!--                                    </div>-->
+<!--                                    <div class="mc_rev">-->
+<!--                                        已有-->
+<!--                                        <a href="#" class="number">12466</a>-->
+<!--                                        人评价-->
+<!--                                    </div>-->
+<!--                                </li>-->
+<!--                                <li>-->
+<!--                                    <a href="#" title="vivo X9s 全网通 4GB+64GB 磨砂黑 移动联通电信4G手机 双卡双待"><img src="/img/593ba628n8794c6a6.jpg" alt=""></a>-->
+<!--                                    <a href="#" title="【预约版】华为 HUAWEI 畅享7S 全面屏双摄 4GB +64GB 黑色 移动联通电信4G手机 双卡双待">-->
+<!--                                        <em>诺基亚 7 (Nokia 7) 4GB+64GB 黑色 全网通 双卡双待 移动联通电信4G手机</em>-->
+<!--                                    </a>-->
+<!--                                    <div class="mc_price">-->
+<!--                                        <strong class="price">-->
+<!--                                            <span class="J-p-5963064">￥1799.00</span>-->
+<!--                                        </strong>-->
+<!--                                        <span class="mc-ico" title="购买本商品送赠品">-->
+<!--                                            <i class="goods-icons">赠品</i>-->
+<!--                                        </span>-->
+<!--                                    </div>-->
+<!--                                    <div class="mc_rev">-->
+<!--                                        已有-->
+<!--                                        <a href="#" class="number">15600</a>-->
+<!--                                        人评价-->
+<!--                                    </div>-->
+<!--                                </li>-->
 
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<!--                            </ul>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
             <!--综合排序-->
             <div class="GM_con_right">
                 <div class="filter">
@@ -197,7 +197,7 @@
                     <div class="rig_tab" style="width:940px">
                       <div style="width:215px" th:each="skuLsInfo:${skuLsInfoList}" >
                             <p class="da">
-                                <a href="#" th:onclick="'javascript:item(\''+${skuLsInfo.id}+'\')'">
+                                <a  th:href="'http://item.gmall.com:8082/'+${skuLsInfo.id}+'.html'" th:onclick="'javascript:item(\''+${skuLsInfo.id}+'\')'">
                                     <img th:src="${skuLsInfo.skuDefaultImg}"   src="/list/img/57d0d400nfd249af4.jpg" class="dim">
                                 </a>
                             </p>
@@ -401,7 +401,7 @@
 <script language="JavaScript">
     function item(skuid) {
         console.log("skuid:"+skuid);
-        window.location.href="http://item.gmall.com:8084/"+skuid+".html";
+        window.location.href="http://item.gmall.com:8082/"+skuid+".html";
     }
 
     function searchList(){
@@ -455,7 +455,7 @@
         $(this).css({display:"none"})
     });
     //显示隐藏
-    var $li = $(".GM_nav_logo>div:gt(3)").hide();
+    var $li = $(".GM_nav_logo>div:gt(3)").show();
       $('.GM_show span').click(function(){
           if($li.is(':hidden')){
               $li.show();

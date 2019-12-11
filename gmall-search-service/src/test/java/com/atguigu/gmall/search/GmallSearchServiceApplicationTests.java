@@ -40,8 +40,8 @@ public class GmallSearchServiceApplicationTests {
 
     @Test
     public void contextLoads() throws IOException {
-        //put();
-        search();
+        put();
+        //search();
     }
     public void search() throws IOException {
         List<PmsSearchSkuInfo> pmsSearchSkuInfos=new ArrayList<>();
