@@ -118,6 +118,12 @@ server_name  192.168.9.108;
 
 #重启storage
 
+#解决网段变化，宿主机ip更换后storage的TRACKER_IP配置问题
+docker exec -it storage /bin/bash
+vi /etc/fdfs/storage.conf 
+# 修改storage配置文件中的tracker_server对应的ip 
+# nginx配置同时也要修改
+
 ```
 
 # fastdfs-client-java

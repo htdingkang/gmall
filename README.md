@@ -15,3 +15,6 @@ gmall-search-web   8083
 # 购物车服务
 gmall-cart-service   8074
 gmall-cart-web       8084
+
+#用户认证中心
+gmall-passport-web   8085  调用 gmall-user-service  
