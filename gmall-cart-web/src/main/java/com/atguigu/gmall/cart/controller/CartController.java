@@ -41,11 +41,14 @@ public class CartController {
         return "toTrade";
     }
 
-
+//待完善，分登录未登录状态，
+//添加 +,-,删除功能
     @RequestMapping("checkCart")
     @LoginRequired(loginSuccess = false)
-    public String checkCart(String isChecked,String skuId,ModelMap modelMap){
-        String memberId="1";
+    public String checkCart(String isChecked,String skuId,
+            HttpServletRequest request,HttpServletResponse response,ModelMap modelMap){
+        String memberId = (String) request.getAttribute("memberId");
+        String nickname = (String) request.getAttribute("nickname");
         //调用服务，修改状态
         OmsCartItem omsCartItemParam=new OmsCartItem();
         omsCartItemParam.setMemberId(memberId);
@@ -68,7 +71,8 @@ public class CartController {
     @RequestMapping("cartList")
     @LoginRequired(loginSuccess = false)
     public String cartList(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap){
-        String memberId="1";
+        String memberId = (String) request.getAttribute("memberId");
+        String nickname = (String) request.getAttribute("nickname");
         List<OmsCartItem> cartList=new ArrayList<>();
         if(StringUtils.isNotBlank(memberId)){
             cartList=cartService.cartList(memberId);
@@ -121,8 +125,8 @@ public class CartController {
         omsCartItem.setQuantity(quantity);
 
         //判断用户是否登录
-        String memberId="1";
-        String memberId1 = request.getParameter("memberId");
+        String memberId = (String) request.getAttribute("memberId");
+        String nickname = (String) request.getAttribute("nickname");
         List<OmsCartItem> omsCartItemList=new ArrayList<>();
         if(StringUtils.isBlank(memberId)){  //模拟未登录
 

@@ -1,6 +1,7 @@
 package com.atguigu.gmall.search.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.atguigu.gmall.annotations.LoginRequired;
 import com.atguigu.gmall.bean.*;
 import com.atguigu.gmall.service.AttrService;
 import com.atguigu.gmall.service.SearchService;
@@ -21,6 +22,7 @@ public class SearchController {
 
 
     @RequestMapping("index")
+    @LoginRequired(loginSuccess = false)  //首页主动登录，重定向到首页，需要写入token到cookie
     public String index(){
         return "index";
     }
