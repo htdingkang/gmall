@@ -315,3 +315,42 @@ PUT gmall
 
 ![image](pic/4.png)
 
+
+# 新浪开放平台
+- 应用名称：dk_gmall
+- App Key(YOUR_CLIENT_ID): 4127982357  
+- App Secret(YOUR_CLIENT_SECRET): bc5fb8cde138655d4ecbaff69cfb3db8
+- 授权回调页(YOUR_REGISTERED_REDIRECT_URI)：http://passport.gmall.com/vlogin
+- 取消授权回调页：http://passport.gmall.com/vlogout
+![image](pic/5.jpg)
+![image](pic/6.jpg)
+
+```
+测试：
+https://api.weibo.com/oauth2/authorize?client_id=YOUR_CLIENT_ID&response_type=code&redirect_uri=YOUR_REGISTERED_REDIRECT_URI
+https://api.weibo.com/oauth2/access_token?client_id=YOUR_CLIENT_ID&client_secret=YOUR_CLIENT_SECRET&grant_type=authorization_code&redirect_uri=YOUR_REGISTERED_REDIRECT_URI&code=CODE
+
+例子：
+1.获取授权码
+https://api.weibo.com/oauth2/authorize?client_id=4127982357&response_type=code&redirect_uri=http://passport.gmall.com/vlogin
+返回结果
+http://passport.gmall.com/vlogin?code=0b032e51f24d8c6ff8b0717497d875f3
+2.换取access_token（post）
+https://api.weibo.com/oauth2/access_token
+?client_id=4127982357
+&client_secret=bc5fb8cde138655d4ecbaff69cfb3db8
+&grant_type=authorization_code
+&redirect_uri=http://passport.gmall.com/vlogin
+&code=0b032e51f24d8c6ff8b0717497d875f3
+返回结果
+{
+    "access_token": "2.005tqGmDbma3VE277b3e6508uFESLC",
+    "remind_in": "157679999",
+    "expires_in": 157679999,
+    "uid": "3459295914",
+    "isRealName": "true"
+}
+3.获取user信息
+https://api.weibo.com/2/users/show.json?access_token=2.005tqGmDbma3VE277b3e6508uFESLC&uid=3459295914&uid=3459295914
+```
+![image](pic/7.jpg)

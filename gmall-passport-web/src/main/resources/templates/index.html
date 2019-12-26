@@ -51,7 +51,7 @@
 
 						</li>
 						<li class="bri">
-							<a href="">忘记密码</a>
+							<a href="https://api.weibo.com/oauth2/authorize?client_id=4127982357&response_type=code&redirect_uri=http://passport.gmall.com:8085/vlogin">新浪微博登录</a>
 						</li>
 						<li class="ent"><button id="btn2" type="button" class="btn2"><a href="javascript:submitLogin();" class="a">登 &nbsp; &nbsp;录</a></button></li>
 
@@ -81,10 +81,11 @@
 			let username = $("#username").val();
 			let password = $("#password").val();
 			$.post("login",{username:username,password:password},function (token) {
-				if(token=="fail"){
+				if(token == ""){
+					alert("未知错误！");
+				}else if(token=="fail"){
 					alert("用户名或密码错误！");
 				}else{
-					//验证token是否为空或者异常
 					window.location.href=$("#ReturnUrl").val()+"?token="+token;
 				}
 			})
