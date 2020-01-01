@@ -35,14 +35,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UmsMemberReceiveAddress> getUmsMemberReceiveAddress(String memberId) {
-//        UmsMemberReceiveAddress umsMemberReceiveAddress=new UmsMemberReceiveAddress();
-//        umsMemberReceiveAddress.setMemberId(memberId);
-//        List<UmsMemberReceiveAddress> umsMemberReceiveAddresses
-//                = umsMemberReceiveAddressMapper.select(umsMemberReceiveAddress);
-        Example example=new Example(UmsMemberReceiveAddress.class);
-        example.createCriteria().andEqualTo("memberId",memberId);
+        UmsMemberReceiveAddress umsMemberReceiveAddress=new UmsMemberReceiveAddress();
+        umsMemberReceiveAddress.setMemberId(memberId);
         List<UmsMemberReceiveAddress> umsMemberReceiveAddresses
-                = umsMemberReceiveAddressMapper.selectByExample(example);
+                = umsMemberReceiveAddressMapper.select(umsMemberReceiveAddress);
         return umsMemberReceiveAddresses;
     }
 
@@ -81,13 +77,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addOauthUser(UmsMember umsMember) {
+    public UmsMember addOauthUser(UmsMember umsMember) {
         userMapper.insertSelective(umsMember);
+        return umsMember;
     }
 
     @Override
     public UmsMember checkOauthUser(UmsMember umsCheck) {
         return userMapper.selectOne(umsCheck);
+    }
+
+    @Override
+    public UmsMemberReceiveAddress getUmsMemberReceiveAddressById(String receiveAddressId) {
+        UmsMemberReceiveAddress address = umsMemberReceiveAddressMapper.selectByPrimaryKey(receiveAddressId);
+        return address;
     }
 
     private UmsMember loginFromDb(UmsMember umsMember) {

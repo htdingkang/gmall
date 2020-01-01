@@ -32,14 +32,6 @@ public class CartController {
     CartService cartService;
 
 
-//临时的结算页面，以后要放到订单服务中
-    @RequestMapping("toTrade")
-    @LoginRequired(loginSuccess = true)
-    public String toTrade(HttpServletRequest request,ModelMap modelMap){
-        String memberId = (String) request.getAttribute("memberId");
-        String nickname = (String) request.getAttribute("nickname");
-        return "toTrade";
-    }
 
 //待完善，分登录未登录状态，
 //添加 +,-,删除功能
@@ -99,7 +91,7 @@ public class CartController {
         BigDecimal totalAmount=new BigDecimal("0.00");
         for (OmsCartItem omsCartItem : cartList) {
             if("1".equals(omsCartItem.getIsChecked())){
-                totalAmount = totalAmount.add(omsCartItem.getPrice().multiply(new BigDecimal(omsCartItem.getQuantity()))) ;
+                totalAmount = totalAmount.add(omsCartItem.getPrice().multiply(omsCartItem.getQuantity())) ;
             }
         }
         return totalAmount;
@@ -122,13 +114,13 @@ public class CartController {
         omsCartItem.setProductName(pmsSkuInfo.getSkuName());
         omsCartItem.setProductPic(pmsSkuInfo.getSkuDefaultImg());
         omsCartItem.setProductSkuId(skuId);
-        omsCartItem.setQuantity(quantity);
+        omsCartItem.setQuantity(new BigDecimal(quantity));
 
         //判断用户是否登录
         String memberId = (String) request.getAttribute("memberId");
         String nickname = (String) request.getAttribute("nickname");
         List<OmsCartItem> omsCartItemList=new ArrayList<>();
-        if(StringUtils.isBlank(memberId)){  //模拟未登录
+        if(StringUtils.isBlank(memberId)){  //未登录
 
             //cookie里原有的购物车数据
             String cartListCookie = CookieUtil.getCookieValue(request, "cartListCookie", true);
@@ -152,10 +144,10 @@ public class CartController {
             if(omsCartItemFromDb==null){
                 //用户没有添加过当前商品
                 omsCartItem.setMemberId(memberId);
-                omsCartItem.setQuantity(quantity);
+                omsCartItem.setQuantity(new BigDecimal(quantity));
                 cartService.addCart(omsCartItem);
             }else{
-                omsCartItemFromDb.setQuantity(omsCartItemFromDb.getQuantity()+omsCartItem.getQuantity());
+                omsCartItemFromDb.setQuantity(omsCartItemFromDb.getQuantity().add(omsCartItem.getQuantity()));
                 cartService.updateCart(omsCartItemFromDb);
             }
             //同步缓存
@@ -190,7 +182,7 @@ public class CartController {
         for (OmsCartItem cartItem : omsCartItemList) {
             if(omsCartItem.getProductSkuId().equals(cartItem.getProductSkuId())){
                 exit=true;
-                cartItem.setQuantity(cartItem.getQuantity()+omsCartItem.getQuantity());
+                cartItem.setQuantity(cartItem.getQuantity().add(omsCartItem.getQuantity()));
                 break;
             }
         }

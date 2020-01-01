@@ -12,9 +12,11 @@ public interface CartService {
 
     void updateCart(OmsCartItem omsCartItemFromDb);
 
-    void flushCartCache(String memberId);
+    List<OmsCartItem> flushCartCache(String memberId);
 
     List<OmsCartItem> cartList(String memberId);
 
     void checkCart(OmsCartItem omsCartItem);
+
+    void delCartByMemberIdAndSkuId(String memberId, String productSkuId);
 }

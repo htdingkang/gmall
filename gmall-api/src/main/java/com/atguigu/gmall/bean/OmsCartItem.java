@@ -15,7 +15,7 @@ public class OmsCartItem implements Serializable{
     private String productSkuId;
     private String memberId;
     @Column
-    private Integer quantity;
+    private BigDecimal quantity;
     private BigDecimal price;
     private String sp1;
     private String sp2;
@@ -76,11 +76,11 @@ public class OmsCartItem implements Serializable{
         this.memberId = memberId;
     }
 
-    public Integer getQuantity() {
+    public BigDecimal getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Integer quantity) {
+    public void setQuantity(BigDecimal quantity) {
         this.quantity = quantity;
     }
 

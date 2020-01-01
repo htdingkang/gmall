@@ -18,3 +18,7 @@ gmall-cart-web       8084
 
 #用户认证中心
 gmall-passport-web   8085  调用 gmall-user-service  
+
+#订单服务
+gmall-order-service       8076
+gmall-order-web           8086

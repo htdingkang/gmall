@@ -113,9 +113,12 @@ public class PassportController {
 
         UmsMember umsCheck=new UmsMember();
         umsCheck.setSourceUid(jsonObject.getString("idstr"));
-        UmsMember umsMemberDb = userService.checkOauthUser(umsCheck);
+        UmsMember umsMemberDb = userService.checkOauthUser(umsCheck);  //检查该用户（社交用户）之前是否登录过系统
         if(umsMemberDb==null){
-            userService.addOauthUser(umsMember);
+            //注意这里的addOauthUser是rpc调用，这里的umsMember和Dao层中umsMember不是同一个引用，所以这里的umsMember是不会有自动生成的主键的。
+            //所以需要返回Dao层中的umsMember
+            UmsMember umsMemberDao = userService.addOauthUser(umsMember);
+            umsMember = umsMemberDao;
         }else{
             umsMember=umsMemberDb;
         }

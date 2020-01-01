@@ -8,6 +8,8 @@ import com.atguigu.gmall.cart.mapper.OmsCartItemMapper;
 import com.atguigu.gmall.service.CartService;
 import com.atguigu.gmall.util.RedisUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import redis.clients.jedis.Jedis;
 import tk.mybatis.mapper.entity.Example;
@@ -22,6 +24,9 @@ public class CartServiceImpl implements CartService {
 
     @Autowired
     RedisUtil redisUtil;
+
+    @Autowired
+    RedissonClient redissonClient;
 
     @Override
     public OmsCartItem getCartByMemberIdAndSkuId(String memberId, String skuId) {
@@ -44,7 +49,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void flushCartCache(String memberId) {
+    public List<OmsCartItem> flushCartCache(String memberId) {
         //因为用户对购物车的修改比较频繁，不适合用userId为key整个列表json后为value的String数据类型。
         //这里使用redis的hash数据结构。userId为redisKey，skuId为hashKey，这样方便直接找到某一条数据
         Jedis jedis = redisUtil.getJedis();
@@ -58,6 +63,7 @@ public class CartServiceImpl implements CartService {
         jedis.del("user:" + memberId + ":cart");
         jedis.hmset("user:" + memberId + ":cart", map);
         jedis.close();
+        return omsCartItems;
     }
 
     @Override
@@ -75,7 +81,15 @@ public class CartServiceImpl implements CartService {
                 }
             }else{
                 //查数据库，放缓存
-
+                //击穿问题
+                RLock lock = redissonClient.getLock("redis-lock-cartList");//分布锁
+                //加锁
+                lock.lock();
+                try{
+                    omsCartItems = flushCartCache(memberId);
+                }finally {
+                    lock.unlock();
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -97,5 +111,14 @@ public class CartServiceImpl implements CartService {
 
         //缓存同步
         flushCartCache(omsCartItem.getMemberId());
+    }
+
+    @Override
+    public void delCartByMemberIdAndSkuId(String memberId, String productSkuId) {
+        Example example=new Example(OmsCartItem.class);
+        example.createCriteria()
+                .andEqualTo("memberId",memberId)
+                .andEqualTo("productSkuId",productSkuId);
+        omsCartItemMapper.deleteByExample(example);
     }
 }
