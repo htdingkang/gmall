@@ -70,7 +70,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter{
                 request.setAttribute("memberId",successMap.get("memberId"));
                 request.setAttribute("nickname",successMap.get("nickname"));
                 //验证通过，覆盖cookie中的token
-                CookieUtil.setCookie(request,response,"oldToken",token,60*20,true);
+                CookieUtil.setCookie(request,response,"oldToken",token,60*30,true);
             }else{
                 //token验证失败并且需要登录的
                 if(loginSuccess){

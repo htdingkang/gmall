@@ -354,3 +354,10 @@ https://api.weibo.com/oauth2/access_token
 https://api.weibo.com/2/users/show.json?access_token=2.005tqGmDbma3VE277b3e6508uFESLC&uid=3459295914&uid=3459295914
 ```
 ![image](pic/7.jpg)
+
+
+# alipay开放平台
+
+[电脑网站支付文档](https://docs.open.alipay.com/270/105899/)
+
+[公钥私钥生成文档](https://docs.open.alipay.com/291/105971/)

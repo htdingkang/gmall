@@ -14,6 +14,7 @@ import com.atguigu.gmall.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
@@ -35,7 +36,7 @@ public class OrderController {
 
     @RequestMapping("submitOrder")
     @LoginRequired(loginSuccess = true)
-    public String submitOrder(String receiveAddressId,String tradeCode,HttpServletRequest request, ModelMap modelMap){
+    public ModelAndView submitOrder(String receiveAddressId, String tradeCode, HttpServletRequest request, ModelMap modelMap){
 
         String memberId = (String) request.getAttribute("memberId");
         String nickname = (String) request.getAttribute("nickname");
@@ -53,7 +54,7 @@ public class OrderController {
             SimpleDateFormat sdf = new SimpleDateFormat("YYYYMMDDHHmmss");
             outTradeNo += sdf.format(new Date());
             outTradeNo +=System.currentTimeMillis();//将毫秒时间戳拼接到外部订单号
-            omsOrder.setOrderSn(outTradeNo); //外部订单号，用来和外部系统进行交互，防止重复
+                omsOrder.setOrderSn(outTradeNo); //外部订单号，用来和外部系统进行交互，防止重复
 
             UmsMemberReceiveAddress address = userService.getUmsMemberReceiveAddressById(receiveAddressId);
             omsOrder.setReceiverProvince(address.getProvince());
@@ -68,6 +69,10 @@ public class OrderController {
             List<OmsOrderItem> omsOrderItems = new ArrayList<>();
             //根据用户id获取要购买的商品列表（购物车）和总价格
             List<OmsCartItem> omsCartItems = cartService.cartList(memberId);
+            if(omsCartItems.isEmpty()){
+                ModelAndView mv=new ModelAndView("tradeFail");
+                return mv;
+            }
             BigDecimal totalPrice = new BigDecimal("0.00");
             for (OmsCartItem omsCartItem : omsCartItems) {
                 if("1".equals(omsCartItem.getIsChecked())){
@@ -76,7 +81,8 @@ public class OrderController {
                     //验价
                     boolean b = skuService.checkPrice(omsCartItem.getProductSkuId(),omsCartItem.getPrice());
                     if(b==false){
-                        return "fail";
+                        ModelAndView mv=new ModelAndView("tradeFail");
+                        return mv;
                     }
                     // 验库存,远程掉用库存系统
 
@@ -103,9 +109,14 @@ public class OrderController {
             orderService.saveOrder(omsOrder);
 
             //重定向到支付系统
-            return null;
+            ModelAndView mv=new ModelAndView("redirect:http://payment.gmall.com:8087/index");
+            //下面的两个参数真实项目中可以不用传，根据当前用户信息去数据库中查，安全
+            mv.addObject("outTradeNo",omsOrder.getOrderSn());
+            mv.addObject("totalAmount",omsOrder.getTotalAmount());
+            return mv;
         } else {
-            return "fail";
+            ModelAndView mv=new ModelAndView("tradeFail");
+            return mv;
         }
     }
 

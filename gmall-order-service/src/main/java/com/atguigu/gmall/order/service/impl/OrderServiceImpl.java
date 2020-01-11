@@ -83,6 +83,15 @@ public class OrderServiceImpl implements OrderService {
             omsOrderItemMapper.insertSelective(omsOrderItem);
             //删除购物车
             cartService.delCartByMemberIdAndSkuId(omsOrder.getMemberId(),omsOrderItem.getProductSkuId());
+            //刷新购物车缓存
+            cartService.flushCartCache(omsOrder.getMemberId());
         }
+    }
+
+    @Override
+    public OmsOrder getOrderByOutTradeNo(String outTradeNo) {
+        OmsOrder omsOrder=new OmsOrder();
+        omsOrder.setOrderSn(outTradeNo);
+        return omsOrderMapper.select(omsOrder).get(0);
     }
 }

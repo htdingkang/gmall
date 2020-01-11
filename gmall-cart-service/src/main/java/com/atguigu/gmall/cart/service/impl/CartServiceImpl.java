@@ -62,6 +62,7 @@ public class CartServiceImpl implements CartService {
         }
         jedis.del("user:" + memberId + ":cart");
         jedis.hmset("user:" + memberId + ":cart", map);
+        jedis.expire("user:" + memberId + ":cart",60*60);
         jedis.close();
         return omsCartItems;
     }
