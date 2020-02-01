@@ -91,6 +91,10 @@ public class PaymentController {
         paymentInfo.setSubject("谷粒商城商品"); //建议查询订单子表的商品item集合，拼接标题
         paymentInfo.setTotalAmount(omsOrder.getTotalAmount());
         paymentService.savePaymentInfo(paymentInfo);
+        //向消息中间件发送一个检查支付状态（支付服务消费）的延迟消息队列
+        paymentService.sendDelayPaymentResultCheckQueue(outTradeNo,5);
+
+        //提交请求
         return form;
     }
 
@@ -114,14 +118,11 @@ public class PaymentController {
             PaymentInfo paymentInfo = new PaymentInfo();
             paymentInfo.setOrderSn(out_trade_no);
             paymentInfo.setAlipayTradeNo(trade_no);
-            paymentInfo.setPaymentStatus("成功付款");
+            paymentInfo.setPaymentStatus("已支付");
             paymentInfo.setCallbackContent(callbackContent);
             paymentInfo.setCallbackTime(new Date());
             paymentService.updatePaymentInfoByOrderSn(paymentInfo);
         }
-
-        //支付成功后，引起的系统服务变更，订单服务，库存服务，物流服务...
-
         return "finish";
     }
 

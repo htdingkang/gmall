@@ -50,9 +50,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public List<OmsCartItem> flushCartCache(String memberId) {
-        //因为用户对购物车的修改比较频繁，不适合用userId为key整个列表json后为value的String数据类型。
-        //这里使用redis的hash数据结构。userId为redisKey，skuId为hashKey，这样方便直接找到某一条数据
-        Jedis jedis = redisUtil.getJedis();
+
         OmsCartItem omsCartItem1 = new OmsCartItem();
         omsCartItem1.setMemberId(memberId);
         List<OmsCartItem> omsCartItems = omsCartItemMapper.select(omsCartItem1);
@@ -60,10 +58,15 @@ public class CartServiceImpl implements CartService {
         for (OmsCartItem cartItem : omsCartItems) {
             map.put(cartItem.getProductSkuId(), JSON.toJSONString(cartItem));
         }
-        jedis.del("user:" + memberId + ":cart");
-        jedis.hmset("user:" + memberId + ":cart", map);
-        jedis.expire("user:" + memberId + ":cart",60*60);
-        jedis.close();
+        if(!map.isEmpty()){
+            //因为用户对购物车的修改比较频繁，不适合用userId为key整个列表json后为value的String数据类型。
+            //这里使用redis的hash数据结构。userId为redisKey，skuId为hashKey，这样方便直接找到某一条数据
+            Jedis jedis = redisUtil.getJedis();
+            jedis.del("user:" + memberId + ":cart");
+            jedis.hmset("user:" + memberId + ":cart", map);
+            jedis.expire("user:" + memberId + ":cart",60*60);
+            jedis.close();
+        }
         return omsCartItems;
     }
 

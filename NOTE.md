@@ -56,6 +56,11 @@ cd bin
 - https://blog.csdn.net/qq_33562996/article/details/80599922
 - dockerhub账号dingkango，里面有dubbo-admin的封装镜像
 
+# docker部署mysql
+```
+docker run -p 3306:3306 --name mysql -v /root/docker/datadir/mysql:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 -d mysql
+```
+
 # 使用 dubbo 注意点
 - dubbo在进行dubbo协议通讯时，需要实现序列化接口（封装的数据对象）
 - consumer在三秒之内每隔一秒进行一次重新访问，默认一秒钟超时，三次访问超时之后会直接抛超时异常。我们在开发阶段可以将consumer设置的超时延长，方便debug
@@ -361,3 +366,18 @@ https://api.weibo.com/2/users/show.json?access_token=2.005tqGmDbma3VE277b3e6508u
 [电脑网站支付文档](https://docs.open.alipay.com/270/105899/)
 
 [公钥私钥生成文档](https://docs.open.alipay.com/291/105971/)
+
+
+# activemq
+启动
+<br/> cd /opt/activemq/apache-activemq-5.14.4/bin
+<br/> ./activemq start
+<br/> ./activemq status 查看运行状态 
+<br/> ./activemq stop   关闭
+<br/>访问控制台
+<br/> http://192.168.1.107:8161/admin/
+<br/> 用户名，密码：admin
+
+<br/> 开启延迟队列: conf/activemq.xml
+
+![image](pic/8.jpg)
