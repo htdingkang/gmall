@@ -25,3 +25,14 @@ gmall-order-web           8086
 
 #支付服务
 gmall-payment             8087
+
+#秒杀服务
+gmall-seckill             8001
+
+
+# TO DO
+1. 登录合并购物车，删除cookie中的购物车数据
+2. elasticsearch数据更新，热度值问题处理。
+3. 购物车列表商品数量的+-，删除。
+4. 我的购物车页面链接
+5. 我的订单页面链接

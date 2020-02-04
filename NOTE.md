@@ -163,7 +163,7 @@ server {
 ```
 yum -y install httpd-tools
 # ab [options] [http[s]://]hostname[:port]/path
-ab -c 200 -n 1000 http://192.168.9.108:9000/testRedisson   # 并发200，共发1000次请求
+ab -c 200 -n 1000 http://192.168.1.123:9001/testRedisson   # 并发200，共发1000次请求
 ```
 
 
